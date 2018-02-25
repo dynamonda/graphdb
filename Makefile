@@ -10,8 +10,12 @@ CFLAGS	= -Wall -O2
 $(PROGRAM): $(OBJECTS)
 	$(CC) -o $@ $^
 
-$(OBJDIR)/%.o: $(SOURCES)
+$(OBJDIR)/%.o: $(SRCDIR)/%.cc
 	$(CC) -c -o $@ $(CFLAGS) $(INCLUDE) $<
 
 echo: 
-	echo $(OBJECTS)
+	echo $(SOURCES)
+
+clean:
+	rm $(OBJDIR)/*.o
+	rm ./$(PROGRAM)
