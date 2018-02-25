@@ -5,7 +5,7 @@ OBJECTS = $(subst ./obj/./src, ./obj, $(addprefix $(OBJDIR)/, $(SOURCES:.cc=.o))
 OBJDIR  = ./obj
 INCLUDE = -I./include/
 CC		= g++
-CFLAGS	= -Wall -O2
+CFLAGS	= -Wall -O2 -std=c++14
 
 $(PROGRAM): $(OBJECTS)
 	$(CC) -o $@ $^
