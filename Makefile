@@ -7,4 +7,4 @@ all: $(OBJS)
 	$(CC) -o $(PROGRAM) main.cc node.o $(CFLAGS)
 
 %.o: %.cc
-	%(CC) -c -o %.o %.cc $(CFLAGS) $<
+	$(CC) -c -o %.o $(CFLAGS) $<

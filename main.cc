@@ -18,5 +18,8 @@ int main(int argc, char *argv[]){
     delete n1;
     delete n2;
 
+    Node n3(getId());
+    n3.info();
+
     return 0;
 }
