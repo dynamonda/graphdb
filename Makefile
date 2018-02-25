@@ -1,10 +1,17 @@
 PROGRAM = graphdb
-OBJS	= main.o
+SRCDIR	= ./src
+SOURCES = $(wildcard $(SRCDIR)/*.cc)
+OBJECTS = $(subst ./obj/./src, ./obj, $(addprefix $(OBJDIR)/, $(SOURCES:.cc=.o)))
+OBJDIR  = ./obj
+INCLUDE = -I./include/
 CC		= g++
 CFLAGS	= -Wall -O2
 
-all: $(OBJS)
-	$(CC) -o $(PROGRAM) main.cc node.o $(CFLAGS)
+$(PROGRAM): $(OBJECTS)
+	$(CC) -o $@ $^
 
-%.o: %.cc
-	$(CC) -c -o %.o $(CFLAGS) $<
+$(OBJDIR)/%.o: $(SOURCES)
+	$(CC) -c -o $@ $(CFLAGS) $(INCLUDE) $<
+
+echo: 
+	echo $(OBJECTS)
