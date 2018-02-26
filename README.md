@@ -8,3 +8,18 @@
 1. Node
 2. Edge
 
+### Node
+
+ノードは以下の要素を持つ
+- id    :int
+- name  :std::string
+- etc.. :<anytype>
+
+### Edge
+
+エッジは以下の要素を持つ
+- id            :int
+- name          :std::string
+- source_node   :Node
+- target_node   :Node
+
