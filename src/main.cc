@@ -1,6 +1,7 @@
 // main.cc
 
 #include <iostream>
+#include "graph.h"
 #include "node.h"
 #include "edge.h"
 
@@ -12,6 +13,7 @@ int getId(){
 
 int main(int argc, char *argv[]){
 
+    Graph g;
     Node *n1 = new Node(getId());
     Node *n2 = new Node(getId());
     n1->info();
