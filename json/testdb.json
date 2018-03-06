@@ -1,0 +1,27 @@
+{
+    "name": "test",
+    "node": [
+        {
+            "id": 0,
+            "name": "node1"
+        },
+        {
+            "id": 1,
+            "name": "node2"
+        }
+    ],
+    "edge": [
+        {
+            "id": 0,
+            "name": "edge1",
+            "source_node": 0,
+            "target_node": 1
+        },
+        {
+            "id": 1,
+            "name": "edge2",
+            "source_node": -1,
+            "target_node": -1
+        }
+    ]
+}

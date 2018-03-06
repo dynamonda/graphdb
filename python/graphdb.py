@@ -33,9 +33,17 @@ class Graph(object):
                         node = Node(name=data['name'])
                         self.node_list.append(node)
                     for data in json_object['edge']:
-                        edge = Edge(name=data['name'],
-                            source_node=self.node_list[data['source_node']], 
-                            target_node=self.node_list[data['target_node']])
+                        source_node = None
+                        if data['source_node'] != -1:
+                            source_node = self.node_list[data['source_node']]
+                        target_node = None
+                        if data['target_node'] != -1:
+                            target_node = self.node_list[data['target_node']]
+                        edge = Edge(
+                            name=data['name'],
+                            source_node=source_node,
+                            target_node=target_node
+                        )
                         self.edge_list.append(edge)
             else:
                 print("Graph __init__(): not found file {0}".format(json_file))
@@ -59,6 +67,21 @@ class Graph(object):
         """
         self.edge_list.append(edge)
 
+    def get_index_node(self, node):
+        """get index of node
+
+        Args:
+            node: a node object
+        Rerutn:
+            index number [0..N]
+        """
+        if node is None:
+            return -1
+        for index in range(len(self.node_list)):
+            if node is self.node_list[index]:
+                return index
+        raise NotFoundException()
+
     def Print(self):
         """Print info"""
         print(self.name)
@@ -68,6 +91,34 @@ class Graph(object):
         print("Edges:")
         for e in self.edge_list:
             print("\t{0}:\t{1}\t-> {2}".format(e, e.source_node, e.target_node))
+
+    def save_json(self, path):
+        """save json file
+        
+        Args:
+            path: save file path
+        """
+        json_object = {
+            'name': self.name,
+            'node': list(),
+            'edge': list()
+        }
+        for index in range(len(self.node_list)):
+            node_obj = {
+                'id': index,
+                'name': self.node_list[index].name
+            }
+            json_object['node'].append(node_obj)
+        for index in range(len(self.edge_list)):
+            edge_obj = {
+                'id': index,
+                'name': self.edge_list[index].name,
+                'source_node': self.get_index_node(self.edge_list[index].source_node),
+                'target_node': self.get_index_node(self.edge_list[index].target_node)
+            }
+            json_object['edge'].append(edge_obj)
+        with open(path, mode='w') as file:
+            json.dump(json_object, file, ensure_ascii=False, indent=4)
 
 
 class Node(GraphObject):
@@ -83,6 +134,10 @@ class Edge(GraphObject):
         self.source_node = source_node
         self.target_node = target_node
 
+
+class NotFoundException(Exception):
+    """Error not found to target"""
+    pass
 
 def main():
     parser = argparse.ArgumentParser()
@@ -102,6 +157,7 @@ def main():
         graph.add_edge(edge1)
         graph.add_edge(Edge('edge2'))
         graph.Print()
+        graph.save_json('./json/testdb.json')
 
 if __name__ == '__main__':
     main()
