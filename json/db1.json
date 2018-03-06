@@ -1,5 +1,14 @@
 {
     "name": "graph-database-1",
-    "node": [],
-    "edge": []
+    "node": [
+        { "id": 0, "name": "tanaka" },
+        { "id": 1, "name": "nakata" },
+        { "id": 2, "name": "taguchi" },
+        { "id": 3, "name": "satou" },
+        { "id": 4, "name": "yamada" }
+    ],
+    "edge": [
+        { "id": 0, "name":"friend", "source_node": 0, "target_node": 1 },
+        { "id": 1, "name":"friend", "source_node": 2, "target_node": 3 }
+    ]
 }

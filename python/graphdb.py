@@ -21,20 +21,27 @@ class Graph(object):
     G = (N, E)
     """
     def __init__(self, name='', json_file=None):
+        self.node_list = list()
+        self.edge_list = list()
         if json_file != None:
             json_path = Path(json_file)
             if json_path.exists():
                 with open(json_path) as f:
                     json_object = json.load(f)
                     self.name = json_object['name']
-                    self.node_list = json_object['node']
-                    self.edge_list = json_object['edge']
+                    for data in json_object['node']:
+                        node = Node(name=data['name'])
+                        self.node_list.append(node)
+                    for data in json_object['edge']:
+                        edge = Edge(name=data['name'],
+                            source_node=self.node_list[data['source_node']], 
+                            target_node=self.node_list[data['target_node']])
+                        self.edge_list.append(edge)
             else:
                 print("Graph __init__(): not found file {0}".format(json_file))
         else:
             self.name = name
-            self.node_list = list()
-            self.edge_list = list()
+            
 
     def add_node(self, node):
         """Add node in node_list
@@ -84,6 +91,7 @@ def main():
 
     if args.file != None:
         graph = Graph(json_file=args.file)
+        graph.Print()
     else:
         graph = Graph("test")
         node1 = Node("node1")
