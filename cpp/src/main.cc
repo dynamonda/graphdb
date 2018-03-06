@@ -20,7 +20,7 @@ int main(int argc, char *argv[]){
     n2->info();
     delete n1;
     delete n2;
-
+    
     Node n3(getId());
     n3.info();
 
