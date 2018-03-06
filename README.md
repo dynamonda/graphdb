@@ -15,11 +15,14 @@
 - name      : std::string
 - node_list : array<Node>
 - edge_list : array<Edge>
+- node_next_index   : int
+- edge_next_index   : int
 
 ### Node
 
 ノードは以下の要素を持つ
 - id    : int
+    - 0から始まる一意のインデックス
 - name  : std::string
 - etc.. : <anytype>
 
@@ -27,6 +30,7 @@
 
 エッジは以下の要素を持つ
 - id            : int
+    - 0から始まる一意のインデックス
 - name          : std::string
 - source_node   : Node
 - target_node   : Node
