@@ -2,6 +2,8 @@
 
 """GraphDB"""
 
+import argparse
+
 class GraphObject(object):
     """Object used in Graph"""
     def __init__(self, name=''):
@@ -16,7 +18,9 @@ class Graph(object):
     
     G = (N, E)
     """
-    def __init__(self, name=''):
+    def __init__(self, name='', json_file=None):
+        if json_file != None:
+            print(json_file)
         self.name = name
         self.node_list = list()
         self.edge_list = list()
@@ -63,15 +67,22 @@ class Edge(GraphObject):
 
 
 def main():
-    graph = Graph("test")
-    node1 = Node("node1")
-    node2 = Node("node2")
-    edge1 = Edge('edge1', node1, node2)
-    graph.add_node(node1)
-    graph.add_node(node2)
-    graph.add_edge(edge1)
-    graph.add_edge(Edge('edge2'))
-    graph.Print()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--file', help='use .json file')
+    args = parser.parse_args()
+
+    if args.file != None:
+        graph = Graph(json_file=args.file)
+    else:
+        graph = Graph("test")
+        node1 = Node("node1")
+        node2 = Node("node2")
+        edge1 = Edge('edge1', node1, node2)
+        graph.add_node(node1)
+        graph.add_node(node2)
+        graph.add_edge(edge1)
+        graph.add_edge(Edge('edge2'))
+        graph.Print()
 
 if __name__ == '__main__':
     main()
