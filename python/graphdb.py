@@ -37,10 +37,15 @@ class Graph(object):
         """
         self.edge_list.append(edge)
 
-    def __str__(self):
-        return ("{0}\n{1}\n{2}".format(
-            self.name, self.node_list, self.edge_list
-        ))
+    def Print(self):
+        """Print info"""
+        print(self.name)
+        print("Nodes:")
+        for n in self.node_list:
+            print("\t{0}".format(n))
+        print("Edges:")
+        for e in self.edge_list:
+            print("\t{0}:\t{1}\t-> {2}".format(e, e.source_node, e.target_node))
 
 
 class Node(GraphObject):
@@ -59,9 +64,14 @@ class Edge(GraphObject):
 
 def main():
     graph = Graph("test")
-    graph.add_node(Node("node1"))
-    graph.add_node(Node("node2"))
-    print(graph)
+    node1 = Node("node1")
+    node2 = Node("node2")
+    edge1 = Edge('edge1', node1, node2)
+    graph.add_node(node1)
+    graph.add_node(node2)
+    graph.add_edge(edge1)
+    graph.add_edge(Edge('edge2'))
+    graph.Print()
 
 if __name__ == '__main__':
     main()
