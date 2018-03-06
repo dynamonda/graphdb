@@ -3,6 +3,8 @@
 """GraphDB"""
 
 import argparse
+import json
+from pathlib import Path
 
 class GraphObject(object):
     """Object used in Graph"""
@@ -20,10 +22,19 @@ class Graph(object):
     """
     def __init__(self, name='', json_file=None):
         if json_file != None:
-            print(json_file)
-        self.name = name
-        self.node_list = list()
-        self.edge_list = list()
+            json_path = Path(json_file)
+            if json_path.exists():
+                with open(json_path) as f:
+                    json_object = json.load(f)
+                    self.name = json_object['name']
+                    self.node_list = json_object['node']
+                    self.edge_list = json_object['edge']
+            else:
+                print("Graph __init__(): not found file {0}".format(json_file))
+        else:
+            self.name = name
+            self.node_list = list()
+            self.edge_list = list()
 
     def add_node(self, node):
         """Add node in node_list
