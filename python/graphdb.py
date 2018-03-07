@@ -10,6 +10,7 @@ class GraphObject(object):
     """Object used in Graph"""
     def __init__(self, name=''):
         self.name = name
+        self.info = dict()
 
     def __str__(self):
         return "{0}".format(self.name)

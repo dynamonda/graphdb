@@ -24,7 +24,8 @@
 - id    : int
     - 0から始まる一意のインデックス
 - name  : std::string
-- etc.. : <anytype>
+- info  : dict
+    - 任意のデータ格納場所
 
 ### Edge
 
@@ -34,4 +35,5 @@
 - name          : std::string
 - source_node   : Node
 - target_node   : Node
-- etc..         : <anytype>
+- info          : dict
+    - 任意のデータ格納場所
