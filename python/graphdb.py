@@ -140,18 +140,27 @@ class NotFoundException(Exception):
     """Error not found to target"""
     pass
 
+def print_help_message():
+    """interactive mode help message"""
+    print("help\t\t:print help message")
+    print("exit\t\t:exit interactive mode")
+    print()
+    print("print:\t\t:print graph object")
+    print("set [graphname]\t:set Graph name")
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--file', help='use .json file')
-    parser.add_argument('--i', action='store_true', help='interactive mode')
+    parser.add_argument('-i', action='store_true', help='interactive mode')
     args = parser.parse_args()
 
     if args.file != None:
         graph = Graph(json_file=args.file)
         graph.Print()
-    elif args.i:
+    elif args.i != None:
         print("Hello! graphdb [help] or [exit]")
         interactive_loop = True
+        graph = Graph()
         while interactive_loop:
             print("> ", end='')
             inputs = input().split()
@@ -159,6 +168,13 @@ def main():
                 if inputs[0] == 'exit':
                     interactive_loop = False
                     print('Bye.')
+                elif inputs[0] == 'help':
+                    print_help_message()
+                elif inputs[0] == 'print':
+                    graph.Print()
+                elif inputs[0] == 'set':
+                    if len(inputs) > 1 and len(inputs[1]) > 0:
+                        graph.name = inputs[1]
     else:
         graph = Graph("test")
         node1 = Node("node1")
