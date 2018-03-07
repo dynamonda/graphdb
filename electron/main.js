@@ -4,6 +4,7 @@ var electron = require('electron');
 var app = electron.app;
 var BrowserWindow = electron.BrowserWindow;
 var Menu = electron.Menu;
+const {dialog} = require('electron');
 
 var mainWindow = null;
 
@@ -35,10 +36,9 @@ var MenuTemplate = [
         submenu: [
             {
                 label: 'Open', 
-                accelerator: 'Command+O', 
-                // [FixMe]: dialogモジュールエラー
+                accelerator: 'Command+O',
                 click: function(){
-                    require('dialog').showOpenDialog( {properties:['openDirectory']},
+                    dialog.showOpenDialog( {properties:['openDirectory']},
                         function(baseDir){
                             if(baseDir && baseDir[0]){
                                 openWindow(baseDir[0]);
