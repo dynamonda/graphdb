@@ -143,11 +143,22 @@ class NotFoundException(Exception):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--file', help='use .json file')
+    parser.add_argument('--i', action='store_true', help='interactive mode')
     args = parser.parse_args()
 
     if args.file != None:
         graph = Graph(json_file=args.file)
         graph.Print()
+    elif args.i:
+        print("Hello! graphdb [help] or [exit]")
+        interactive_loop = True
+        while interactive_loop:
+            print("> ", end='')
+            inputs = input().split()
+            if len(inputs) > 0:
+                if inputs[0] == 'exit':
+                    interactive_loop = False
+                    print('Bye.')
     else:
         graph = Graph("test")
         node1 = Node("node1")
