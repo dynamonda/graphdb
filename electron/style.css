@@ -1,0 +1,20 @@
+
+div#left-menu{
+    background-color: #099;
+    float: left;
+    width: 20%;
+    height: 600px;
+}
+
+div#center{
+    width: 60%;
+    height: 600px;
+    float: left;
+}
+
+div#right-menu{
+    background-color: #ebb;
+    width: 20%;
+    height: 600px;
+    float: left;
+}
