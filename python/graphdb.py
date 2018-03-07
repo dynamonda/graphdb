@@ -147,6 +147,11 @@ def print_help_message():
     print()
     print("print:\t\t:print graph object")
     print("set [graphname]\t:set Graph name")
+    print("save [filepath]\t:save Graph to json file")
+    print()
+    print("create node [name]\t:Create Node object into Graph")
+    print()
+    print("create edge [name]\t:Create Edge object into Graph")
 
 def main():
     parser = argparse.ArgumentParser()
@@ -157,7 +162,7 @@ def main():
     if args.file != None:
         graph = Graph(json_file=args.file)
         graph.Print()
-    elif args.i != None:
+    elif args.i != True:
         print("Hello! graphdb [help] or [exit]")
         interactive_loop = True
         graph = Graph()
@@ -175,6 +180,18 @@ def main():
                 elif inputs[0] == 'set':
                     if len(inputs) > 1 and len(inputs[1]) > 0:
                         graph.name = inputs[1]
+                elif inputs[0] == 'save':
+                    if len(inputs) > 1 and len(inputs[1]) > 0:
+                        graph.save_json(inputs[1])
+                elif inputs[0] == 'create':
+                    if len(inputs) < 2:
+                        print("create node\t:Create Node object into Graph")
+                    elif inputs[1] == 'node':
+                        node = Node(inputs[2])
+                        graph.add_node(node)
+                    elif inputs[1] == 'edge':
+                        edge = Edge(inputs[2])
+                        graph.add_edge(edge)
     else:
         graph = Graph("test")
         node1 = Node("node1")
