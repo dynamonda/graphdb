@@ -12,6 +12,15 @@ div#center{
     float: left;
 }
 
+div#center-top{
+    height: 10%;
+    background-color: #ece;
+}
+
+canvas#canvas-field{
+    height: auto;
+}
+
 div#right-menu{
     background-color: #ebb;
     width: 20%;
