@@ -21,52 +21,26 @@ class Graph(object):
     
     G = (N, E)
     """
-    def __init__(self, name='', json_file=None):
-        self.node_list = list()
-        self.edge_list = list()
-        if json_file != None:
-            json_path = Path(json_file)
-            if json_path.exists():
-                with open(json_path) as f:
-                    json_object = json.load(f)
-                    self.name = json_object['name']
-                    for data in json_object['node']:
-                        node = Node(name=data['name'])
-                        self.node_list.append(node)
-                    for data in json_object['edge']:
-                        source_node = None
-                        if data['source_node'] != -1:
-                            source_node = self.node_list[data['source_node']]
-                        target_node = None
-                        if data['target_node'] != -1:
-                            target_node = self.node_list[data['target_node']]
-                        edge = Edge(
-                            name=data['name'],
-                            source_node=source_node,
-                            target_node=target_node
-                        )
-                        self.edge_list.append(edge)
-            else:
-                print("Graph __init__(): not found file {0}".format(json_file))
-        else:
-            self.name = name
-            
+    def __init__(self, name=''):
+        self.node_dict = dict()
+        self.edge_dict = dict()
+        self.name = name    
 
-    def add_node(self, node):
-        """Add node in node_list
+    def add_node(self, key, node):
+        """Add node in node_dict
 
         Args:
             node: a added node object
         """
-        self.node_list.append(node)
+        self.node_dict[key] = node
 
-    def add_edge(self, edge):
-        """Add edge in edge_list
+    def add_edge(self, key, edge):
+        """Add edge in edge_dict
 
         Args:
             edge: a added edge object
         """
-        self.edge_list.append(edge)
+        self.edge_dict[key] = edge
 
     def get_index_node(self, node):
         """get index of node
@@ -87,11 +61,12 @@ class Graph(object):
         """Print info"""
         print(self.name)
         print("Nodes:")
-        for n in self.node_list:
-            print("\t{0}".format(n))
+        for k, n in self.node_dict.items():
+            print("\t{0}: {1}".format(k, n))
         print("Edges:")
-        for e in self.edge_list:
-            print("\t{0}:\t{1}\t-> {2}".format(e, e.source_node, e.target_node))
+        for k, e in self.edge_dict.items():
+            print("\t{0}: {1}: {2} -> {3}".format(
+                k, e, e.source_node, e.target_node))
 
     def save_json(self, path):
         """save json file
@@ -120,6 +95,40 @@ class Graph(object):
             json_object['edge'].append(edge_obj)
         with open(path, mode='w') as file:
             json.dump(json_object, file, ensure_ascii=False, indent=4)
+
+
+def GraphFromJson(json_file_path):
+    """Create Graph object from json file
+
+    Args:
+        json_object: json file path
+
+    Return:
+        A Graph object
+    """
+    json_path = Path(json_file_path)
+    if json_path.exists():
+        with open(json_path) as f:
+            json_object = json.load(f)
+            graph = Graph(name=json_object['name'])
+            for k, v in json_object['node'].items():
+                graph.add_node(k, v)
+            for k, v in json_object['edge'].items():
+                source_node = None
+                if 'source_node' in v:
+                    source_node = v['source_node']
+                target_node = None
+                if 'target_node' in v:
+                    target_node = v['target_node']
+                edge = Edge(
+                    name=v['name'],
+                    source_node=source_node,
+                    target_node=target_node
+                )
+                graph.add_edge(k, edge)
+            return graph
+    else:
+        raise NotFoundException()
 
 
 class Node(GraphObject):
@@ -160,7 +169,7 @@ def main():
     args = parser.parse_args()
 
     if args.file != None:
-        graph = Graph(json_file=args.file)
+        graph = GraphFromJson(args.file)
         graph.Print()
     elif args.i != True:
         print("Hello! graphdb [help] or [exit]")

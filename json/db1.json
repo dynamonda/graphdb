@@ -1,14 +1,16 @@
 {
     "name": "graph-database-1",
-    "node": [
-        { "id": 0, "name": "tanaka" },
-        { "id": 1, "name": "nakata" },
-        { "id": 2, "name": "taguchi" },
-        { "id": 3, "name": "satou" },
-        { "id": 4, "name": "yamada" }
-    ],
-    "edge": [
-        { "id": 0, "name":"friend", "source_node": 0, "target_node": 1 },
-        { "id": 1, "name":"friend", "source_node": 2, "target_node": 3 }
-    ]
+    "node": {
+        "0": { "name": "tanaka" },
+        "1": { "name": "nakata" },
+        "2": { "name": "taguchi" },
+        "3": { "name": "satou" },
+        "4": { "name": "yamada" }
+    },
+    "edge": {
+        "0": { "name":"friend", "source_node": "0", "target_node": "1" },
+        "1": { "name":"friend", "source_node": "2", "target_node": "3" }
+    },
+    "node_next_index": 5,
+    "edge_next_index": 2
 }
