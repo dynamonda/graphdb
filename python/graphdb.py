@@ -87,23 +87,27 @@ class Graph(object):
         """
         json_object = {
             'name': self.name,
-            'node': list(),
-            'edge': list()
+            'node': dict(),
+            'edge': dict(),
+            'node_next_index': self.node_next_index,
+            'edge_next_index': self.edge_next_index
         }
-        for index in range(len(self.node_list)):
-            node_obj = {
-                'id': index,
-                'name': self.node_list[index].name
+        for k, n in self.node_dict.items():
+            # Node に ToDict() を追加する
+            node = {
+                'name': n.name
             }
-            json_object['node'].append(node_obj)
-        for index in range(len(self.edge_list)):
-            edge_obj = {
-                'id': index,
-                'name': self.edge_list[index].name,
-                'source_node': self.get_index_node(self.edge_list[index].source_node),
-                'target_node': self.get_index_node(self.edge_list[index].target_node)
+            json_object['node'][k] = node
+        for k, e in self.edge_dict.items():
+            # EdgeにToDict()を追加する
+            edge = {
+                'name': e.name
             }
-            json_object['edge'].append(edge_obj)
+            if e.source_node != None:
+                edge['source_node'] = self.get_key_node(e.source_node)
+            if e.target_node != None:
+                edge['target_node'] = self.get_key_node(e.target_node)
+            json_object['edge'][k] = edge
         with open(path, mode='w') as file:
             json.dump(json_object, file, ensure_ascii=False, indent=4)
 
@@ -184,7 +188,7 @@ def main():
     if args.file != None:
         graph = GraphFromJson(args.file)
         graph.Print()
-    elif args.i != True:
+    elif args.i == True:
         print("Hello! graphdb [help] or [exit]")
         interactive_loop = True
         graph = Graph()
