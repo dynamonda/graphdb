@@ -93,11 +93,7 @@ class Graph(object):
             'edge_next_index': self.edge_next_index
         }
         for k, n in self.node_dict.items():
-            # Node に ToDict() を追加する
-            node = {
-                'name': n.name
-            }
-            json_object['node'][k] = node
+            json_object['node'][k] = n.Dict()
         for k, e in self.edge_dict.items():
             # EdgeにToDict()を追加する
             edge = {
@@ -152,6 +148,13 @@ class Node(GraphObject):
     """Node object"""
     def __init__(self, name=''):
         super().__init__(name=name)
+
+    def Dict(self):
+        """return dict object"""
+        dict_object = {
+            'name': self.name
+        }
+        return dict_object
 
 
 class Edge(GraphObject):
