@@ -13,10 +13,13 @@
 ### Graph
 
 - name      : std::string
-- node_list : array<Node>
-- edge_list : array<Edge>
+- node_list : map< std::string, Node >
+- edge_list : map< std::string, Edge >
 - node_next_index   : int
 - edge_next_index   : int
+
+Node, Edgeのリストは連想配列が推奨される。
+要素の削除でインデックスがずれることを防ぐためである。
 
 ### Node
 
