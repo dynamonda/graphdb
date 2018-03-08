@@ -95,15 +95,7 @@ class Graph(object):
         for k, n in self.node_dict.items():
             json_object['node'][k] = n.Dict()
         for k, e in self.edge_dict.items():
-            # EdgeにToDict()を追加する
-            edge = {
-                'name': e.name
-            }
-            if e.source_node != None:
-                edge['source_node'] = self.get_key_node(e.source_node)
-            if e.target_node != None:
-                edge['target_node'] = self.get_key_node(e.target_node)
-            json_object['edge'][k] = edge
+            json_object['edge'][k] = e.Dict(self)
         with open(path, mode='w') as file:
             json.dump(json_object, file, ensure_ascii=False, indent=4)
 
@@ -163,6 +155,19 @@ class Edge(GraphObject):
         super().__init__(name=name)
         self.source_node = source_node
         self.target_node = target_node
+
+    def Dict(self, graph):
+        """return dict object"""
+        dict_object = {
+            'name': self.name
+        }
+        if self.source_node != None:
+            # ここ変更
+            dict_object['source_node'] = graph.get_key_node(self.source_node)
+        if self.target_node != None:
+            # ここ変更
+            dict_object['target_node'] = graph.get_key_node(self.target_node)
+        return dict_object
 
 
 class NotFoundException(Exception):
