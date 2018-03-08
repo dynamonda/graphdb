@@ -22,48 +22,59 @@ class Graph(object):
     G = (N, E)
     """
     def __init__(self, name=''):
+        self.name = name
         self.node_dict = dict()
         self.edge_dict = dict()
-        self.name = name    
+        self.node_next_index = 0
+        self.edge_next_index = 0
 
-    def add_node(self, key, node):
+    def add_node(self, node, key=None):
         """Add node in node_dict
 
         Args:
+            key : a key of node
             node: a added node object
         """
-        self.node_dict[key] = node
+        if key is None:
+            self.node_dict[str(self.node_next_index)] = node
+            self.node_next_index += 1
+        else:
+            self.node_dict[key] = node
 
-    def add_edge(self, key, edge):
+    def add_edge(self, edge, key=None):
         """Add edge in edge_dict
 
         Args:
             edge: a added edge object
         """
-        self.edge_dict[key] = edge
+        if key is None:
+            self.edge_dict[str(self.edge_next_index)] = edge
+            self.edge_next_index += 1
+        else:
+            self.edge_dict[key] = edge
 
-    def get_index_node(self, node):
-        """get index of node
+    def get_key_node(self, node):
+        """get key of node
 
         Args:
             node: a node object
         Rerutn:
-            index number [0..N]
+            index key
         """
         if node is None:
-            return -1
-        for index in range(len(self.node_list)):
-            if node is self.node_list[index]:
-                return index
+            return None
+        for k, n in self.node_dict.items():
+            if n is node:
+                return k
         raise NotFoundException()
 
     def Print(self):
         """Print info"""
         print(self.name)
-        print("Nodes:")
+        print("Nodes:\tnext index {0}".format(self.node_next_index))
         for k, n in self.node_dict.items():
             print("\t{0}: {1}".format(k, n))
-        print("Edges:")
+        print("Edges:\tnext index {0}".format(self.edge_next_index))
         for k, e in self.edge_dict.items():
             print("\t{0}: {1}: {2} -> {3}".format(
                 k, e, e.source_node, e.target_node))
@@ -112,7 +123,7 @@ def GraphFromJson(json_file_path):
             json_object = json.load(f)
             graph = Graph(name=json_object['name'])
             for k, v in json_object['node'].items():
-                graph.add_node(k, v)
+                graph.add_node(key=k, node=v)
             for k, v in json_object['edge'].items():
                 source_node = None
                 if 'source_node' in v:
@@ -125,7 +136,9 @@ def GraphFromJson(json_file_path):
                     source_node=source_node,
                     target_node=target_node
                 )
-                graph.add_edge(k, edge)
+                graph.add_edge(key=k, edge=edge)
+            graph.node_next_index = int(json_object['node_next_index'])
+            graph.edge_next_index = int(json_object['edge_next_index'])
             return graph
     else:
         raise NotFoundException()
